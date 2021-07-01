@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HomeApi.Configuration;
+using HomeApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,15 +18,25 @@ namespace HomeApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+        /// <summary>
+        /// Загрузка конфигурации из файла Json
+        /// </summary>
+        private IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .AddJsonFile("HomeOptions.json")
+            .Build();
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Добавляем новый сервис
+            services.Configure<HomeOptions>(Configuration);
+            services.Configure<HomeOptions>(opt =>
+            {
+                opt.Area = 120;
+            });
+            
+            // Загружаем только адресс (вложенный Json-объект))
+            services.Configure<Address>(Configuration.GetSection("Address"));
+            
             // Нам не нужны представления, но в MVC бы здесь стояло AddControllersWithViews()
             services.AddControllers();
             // поддерживает автоматическую генерацию документации WebApi с использованием Swagger
