@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using HomeApi.Configuration;
 using HomeApi.Models;
@@ -27,6 +28,10 @@ namespace HomeApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Подключаем автомаппинг
+            var assembly = Assembly.GetAssembly(typeof(MappingProfile));
+            services.AddAutoMapper(assembly);
+            
             // Добавляем новый сервис
             services.Configure<HomeOptions>(Configuration);
             services.Configure<HomeOptions>(opt =>
