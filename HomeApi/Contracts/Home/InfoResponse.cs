@@ -1,4 +1,4 @@
-﻿namespace HomeApi.Contracts
+﻿namespace HomeApi.Contracts.Home
 {
     /// <summary>
     /// Информация о вашем доме (модель ответа)

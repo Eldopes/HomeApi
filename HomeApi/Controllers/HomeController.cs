@@ -3,6 +3,8 @@ using System.Text;
 using AutoMapper;
 using HomeApi.Configuration;
 using HomeApi.Contracts;
+using HomeApi.Contracts.Devices;
+using HomeApi.Contracts.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -25,8 +27,8 @@ namespace HomeApi.Controllers
         /// <summary>
         /// Метод для получения информации о доме
         /// </summary>
-        [HttpGet] // Для обслуживания Get-запросов
-        [Route("info")] // Настройка маршрута с помощью атрибутов
+        [HttpGet]
+        [Route("info")] 
         public IActionResult Info()
         {
             // Получим запрос, смапив конфигурацию на модель запроса
