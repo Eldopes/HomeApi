@@ -1,20 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using HomeApi.Configuration;
 using HomeApi.Contracts.Validation;
-using HomeApi.Models;
+using HomeApi.Data;
+using HomeApi.Data.Repos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace HomeApi
@@ -33,6 +28,13 @@ namespace HomeApi
             // Подключаем автомаппинг
             var assembly = Assembly.GetAssembly(typeof(MappingProfile));
             services.AddAutoMapper(assembly);
+            
+            // регистрация сервиса репозитория для взаимодействия с базой данных
+            services.AddSingleton<IDeviceRepository, DeviceRepository>();
+            services.AddSingleton<IRoomRepository, RoomRepository>();
+            
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<HomeApiContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
             
             // Подключаем валидацию
             services.AddFluentValidation( fv =>  fv.RegisterValidatorsFromAssemblyContaining<AddDeviceRequestValidator>() );

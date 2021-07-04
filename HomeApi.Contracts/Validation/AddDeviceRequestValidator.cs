@@ -34,7 +34,7 @@ namespace HomeApi.Contracts.Validation
             RuleFor(x => x.SerialNumber).NotEmpty();
             RuleFor(x => x.CurrentVolts).NotEmpty().InclusiveBetween(120, 220); // Проверим, что значение в заданном диапазоне
             RuleFor(x => x.GasUsage).NotNull();
-            RuleFor(x => x.Location).NotEmpty().Must(BeSupported).WithMessage($"Please choose one of the following locations: {string.Join(", ", _validLocations)}");
+            RuleFor(x => x.RoomLocation).NotEmpty().Must(BeSupported).WithMessage($"Please choose one of the following locations: {string.Join(", ", _validLocations)}");
         }
         
         /// <summary>
