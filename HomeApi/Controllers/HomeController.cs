@@ -1,10 +1,6 @@
-﻿using System;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using HomeApi.Configuration;
-using HomeApi.Contracts;
-using HomeApi.Contracts.Devices;
-using HomeApi.Contracts.Home;
+using HomeApi.Contracts.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
