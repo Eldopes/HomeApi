@@ -6,7 +6,7 @@ using HomeApi.Contracts.Models.Devices;
 namespace HomeApi.Contracts.Validation
 {
     /// <summary>
-    /// Класс-валидатор запросов подключения
+    /// Класс-валидатор запросов обновления устройства
     /// </summary>
     public class EditDeviceRequestValidator : AbstractValidator<EditDeviceRequest>
     {

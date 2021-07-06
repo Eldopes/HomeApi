@@ -92,10 +92,10 @@ namespace HomeApi.Controllers
             await _devices.UpdateDevice(
                 device,
                 room,
-                new UpdateDeviceQuery(request.NewName)
+                new UpdateDeviceQuery(request.NewName, request.NewSerial)
             );
 
-            return StatusCode(200, $"Устройство обновлено! Новое имя: {request.NewName}. Новая комната: {request.NewRoom}");
+            return StatusCode(200, $"Устройство обновлено!  Имя - {device.Name}, Серийный номер - {device.SerialNumber},  Комната подключения  -  {device.Room.Name}");
         }
     }
 }

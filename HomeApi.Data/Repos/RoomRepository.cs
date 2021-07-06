@@ -17,12 +17,17 @@ namespace HomeApi.Data.Repos
             _context = context;
         }
         
+        /// <summary>
+        ///  Найти комнату по имени
+        /// </summary>
         public async Task<Room> GetRoomByName(string name)
         {
             return await _context.Rooms.Where(r => r.Name == name).FirstOrDefaultAsync();
         }
         
-        
+        /// <summary>
+        ///  Добавить новую комнату
+        /// </summary>
         public async Task AddRoom(Room room)
         {
             var entry = _context.Entry(room);

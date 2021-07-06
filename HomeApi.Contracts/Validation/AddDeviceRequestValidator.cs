@@ -16,7 +16,6 @@ namespace HomeApi.Contracts.Validation
         public AddDeviceRequestValidator() 
         {
             /* Зададим правила валидации */ 
-            
             RuleFor(x => x.Name).NotEmpty(); // Проверим на null и на пустое свойство
             RuleFor(x => x.Manufacturer).NotEmpty();
             RuleFor(x => x.Model).NotEmpty();

@@ -1,7 +1,7 @@
 ﻿namespace HomeApi.Contracts.Validation
 {
     /// <summary>
-    /// Класс хранит допустимые значения для валидаторов
+    /// Класс-хранилище допустымых значений для валидаторов
     /// </summary>
     public static class Values
     {

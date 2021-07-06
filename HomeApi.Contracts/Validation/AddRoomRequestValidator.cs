@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
-using HomeApi.Contracts.Models.Devices;
 using HomeApi.Contracts.Models.Rooms;
 
 namespace HomeApi.Contracts.Validation
 {
+    /// <summary>
+    /// Класс-валидатор запросов на добавление новой комнаты
+    /// </summary>
     public class AddRoomRequestValidator : AbstractValidator<AddRoomRequest>
     {
         public AddRoomRequestValidator() 
