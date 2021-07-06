@@ -45,6 +45,8 @@ namespace HomeApi.Controllers
             return StatusCode(200, resp);
         }
         
+        // TODO: Задание: напишите запрос на удаление устройства
+        
         /// <summary>
         /// Добавление нового устройства
         /// </summary>
@@ -70,14 +72,14 @@ namespace HomeApi.Controllers
         /// Обновление существующего устройства
         /// </summary>
         [HttpPatch] 
-        [Route("{id}/Edit")] 
+        [Route("{id}")] 
         public async Task<IActionResult> Edit(
             [FromRoute] Guid id,
             [FromBody]  EditDeviceRequest request)
         {
             var room = await _rooms.GetRoomByName(request.NewRoom);
             if(room == null)
-                return StatusCode(400, $"Ошибка: Комната {request.NewName} не подключена. Сначала подключите комнату!");
+                return StatusCode(400, $"Ошибка: Комната {request.NewRoom} не подключена. Сначала подключите комнату!");
             
             var device = await _devices.GetDeviceById(id);
             if(device == null)
@@ -93,7 +95,7 @@ namespace HomeApi.Controllers
                 new UpdateDeviceQuery(request.NewName)
             );
 
-            return StatusCode(200, $"Устройство обновлено! Новое имя: ${request.NewName}. Новая комната: ${request.NewName}");
+            return StatusCode(200, $"Устройство обновлено! Новое имя: {request.NewName}. Новая комната: {request.NewRoom}");
         }
     }
 }
