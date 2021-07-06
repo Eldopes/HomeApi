@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using HomeApi.Data.Models;
+using HomeApi.Data.Queries;
 using Microsoft.EntityFrameworkCore;
 
 namespace HomeApi.Data.Repos
@@ -18,7 +19,7 @@ namespace HomeApi.Data.Repos
             _context = context;
         }
 
-        public async Task<Device[]> GetAll()
+        public async Task<Device[]> GetDevices()
         {
             return await _context.Devices
                 .Include( d => d.Room)
@@ -40,6 +41,18 @@ namespace HomeApi.Data.Repos
         }
 
         public async Task SaveDevice(Device device, Room room)
+        {
+            device.RoomId = room.Id;
+            device.Room = room;
+            
+            var entry = _context.Entry(device);
+            if (entry.State == EntityState.Detached)
+                await _context.Devices.AddAsync(device);
+            
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateDevice(Device device, Room room, UpdateDeviceQuery query)
         {
             device.RoomId = room.Id;
             device.Room = room;

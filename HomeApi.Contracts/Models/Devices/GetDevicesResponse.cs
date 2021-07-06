@@ -18,6 +18,6 @@ namespace HomeApi.Contracts.Models.Devices
         public string SerialNumber { get; set; }
         public int CurrentVolts { get; set; }
         public bool GasUsage { get; set; }
-        public string Room  { get; set; }
+        public string Location  { get; set; }
     }
 }

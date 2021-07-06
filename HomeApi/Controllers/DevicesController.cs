@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HomeApi.Contracts.Models.Devices;
 using HomeApi.Data.Models;
+using HomeApi.Data.Queries;
 using HomeApi.Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeApi.Controllers
 {
@@ -34,7 +34,7 @@ namespace HomeApi.Controllers
         [Route("")] 
         public async Task<IActionResult> GetDevices()
         {
-            var devices = await _devices.GetAll();
+            var devices = await _devices.GetDevices();
 
             var resp = new GetDevicesResponse
             {
@@ -63,7 +63,7 @@ namespace HomeApi.Controllers
             var newDevice = _mapper.Map<AddDeviceRequest, Device>(request);
             await _devices.SaveDevice(newDevice, room);
             
-            return StatusCode(201, $"Устройство {request.Name} добавлена!");
+            return StatusCode(201, $"Устройство {request.Name} добавлено. Идентификатор: {newDevice.Id}");
         }
         
         /// <summary>
@@ -75,11 +75,25 @@ namespace HomeApi.Controllers
             [FromRoute] Guid id,
             [FromBody]  EditDeviceRequest request)
         {
-            throw new NotImplementedException();
+            var room = await _rooms.GetRoomByName(request.NewRoom);
+            if(room == null)
+                return StatusCode(400, $"Ошибка: Комната {request.NewName} не подключена. Сначала подключите комнату!");
+            
+            var device = await _devices.GetDeviceById(id);
+            if(device == null)
+                return StatusCode(400, $"Ошибка: Устройство с идентификатором {id} не существует.");
+            
+            var withSameName = await _devices.GetDeviceByName(request.NewName);
+            if(withSameName != null)
+                return StatusCode(400, $"Ошибка: Устройство с именем {request.NewName} уже подключено. Выберите другое имя!");
 
-            //   var device = await _devices.GetDeviceById(id);
+            await _devices.UpdateDevice(
+                device,
+                room,
+                new UpdateDeviceQuery(request.NewName)
+            );
 
-            // TODO:  дописать 
+            return StatusCode(200, $"Устройство обновлено! Новое имя: ${request.NewName}. Новая комната: ${request.NewName}");
         }
     }
 }

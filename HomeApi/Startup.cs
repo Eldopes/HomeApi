@@ -20,6 +20,8 @@ namespace HomeApi
         /// Загрузка конфигурации из файла Json
         /// </summary>
         private IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.Development.json")
             .AddJsonFile("HomeOptions.json")
             .Build();
 
@@ -33,7 +35,7 @@ namespace HomeApi
             services.AddSingleton<IDeviceRepository, DeviceRepository>();
             services.AddSingleton<IRoomRepository, RoomRepository>();
             
-            string connection = Configuration.GetConnectionString("DefaultConnection");
+            string connection = Configuration. GetConnectionString("DefaultConnection");
             services.AddDbContext<HomeApiContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
             
             // Подключаем валидацию
@@ -41,10 +43,6 @@ namespace HomeApi
             
             // Добавляем новый сервис
             services.Configure<HomeOptions>(Configuration);
-            services.Configure<HomeOptions>(opt =>
-            {
-                opt.Area = 120;
-            });
             
             // Загружаем только адресс (вложенный Json-объект))
             services.Configure<Address>(Configuration.GetSection("Address"));
