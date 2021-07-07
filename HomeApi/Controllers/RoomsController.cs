@@ -29,7 +29,7 @@ namespace HomeApi.Controllers
         /// Добавление комнаты
         /// </summary>
         [HttpPost] 
-        [Route("Add")] 
+        [Route("")] 
         public async Task<IActionResult> Add([FromBody] AddRoomRequest request)
         {
             var existingRoom = await _repository.GetRoomByName(request.Name);
