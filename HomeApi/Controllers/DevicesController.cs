@@ -51,7 +51,7 @@ namespace HomeApi.Controllers
         /// Добавление нового устройства
         /// </summary>
         [HttpPost] 
-        [Route("Add")] 
+        [Route("")] 
         public async Task<IActionResult> Add( AddDeviceRequest request )
         {
             var room = await _rooms.GetRoomByName(request.RoomLocation);
