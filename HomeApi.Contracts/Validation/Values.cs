@@ -12,5 +12,11 @@
             "Гостиная",
             "Туалет"
         };
+        
+        public static int [] ValidCurrencies = new  []
+        {
+           120,
+           220
+        };
     }
 }
